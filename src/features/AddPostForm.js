@@ -1,30 +1,45 @@
 import {useState} from 'react';
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import { nanoid } from '@reduxjs/toolkit';
 import { postAdded } from './postSlice';
-
+import {selectAllUsers} from '../features/users/usersSlice'
 
 const AddPostForm = () => {
 
+  const users=useSelector(selectAllUsers)
+  console.log(users)
 
 const [title, setTitle]=useState("")  
-const [content, setContent] = useState("");  
+const [content, setContent] = useState("");
+const [userId, setUserId] = useState(""); 
 
 const handleChangeTitle=(e)=>setTitle(e.target.value)
 const handleChangeContent = (e) => setContent(e.target.value);
+const handleChangeAuthor = (e) => setUserId(e.target.value);
 
 const dispatch = useDispatch();
 
+
 const onSavePostClicked=()=>{
   if(title && content){
-    dispatch(postAdded(title,content))
-    
+    dispatch(postAdded(title,content,userId))
+
     setTitle("")
     setContent("");
   }
 }
 
+const canSave= Boolean(title)&& Boolean(content) && Boolean(userId)
 
+
+const usersOptions=users.map(user=>{
+  return (
+    <option key={user.id} value={user.id}>
+      {user.name}
+    </option>
+  );
+
+})
 
   
   return (
@@ -32,18 +47,18 @@ const onSavePostClicked=()=>{
       <h2>Ajouter une nouvelle publication</h2>
       <form>
         <label htmlFor="postTitle">Titre de la publication:</label>
-        <input type="text"
-         id="postTitle" 
-         name="postTitle"
-         value={title}
-         onChange={handleChangeTitle}
-          />
+        <input
+          type="text"
+          id="postTitle"
+          name="postTitle"
+          value={title}
+          onChange={handleChangeTitle}
+        />
         <label htmlFor="postAuthor">Auteur:</label>
-        <select id="postAuthor">
+        <select id="postAuthor" value={userId} onChange={handleChangeAuthor}>
           <option value=""></option>
-          <option value="name 1">Name1</option>
-          <option value="name 1">Name2</option>
-          <option value="name 1">Name3</option>
+          {usersOptions}
+   
         </select>
         <label htmlFor="postContent">Contenu:</label>
         <textarea
@@ -51,10 +66,12 @@ const onSavePostClicked=()=>{
           name="postContent"
           value={content}
           onChange={handleChangeContent}
-         />
-        <button type="button"
-        onClick={onSavePostClicked}>
-         Enregistrer la publication
+        />
+        <button type="button" 
+        onClick={onSavePostClicked}
+        disabled={!canSave}
+        >
+          Enregistrer la publication
         </button>
       </form>
     </section>

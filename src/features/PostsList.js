@@ -3,6 +3,7 @@ import { selectAllPosts } from './postSlice';
 
 const PostsList = () => {
   
+  
   const posts=useSelector(selectAllPosts)
   
 
@@ -19,7 +20,7 @@ const PostsList = () => {
 
   return (
     <section>
-      <h2>Posts</h2>
+      <h2>Publication</h2>
       {renderedPosts}
     </section>
   );

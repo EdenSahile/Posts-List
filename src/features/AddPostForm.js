@@ -1,23 +1,24 @@
 import {useState} from 'react';
 import { useDispatch,useSelector } from "react-redux";
-import { nanoid } from '@reduxjs/toolkit';
 import { postAdded } from './postSlice';
 import {selectAllUsers} from '../features/users/usersSlice'
 
 const AddPostForm = () => {
 
-  const users=useSelector(selectAllUsers)
-  console.log(users)
+const dispatch = useDispatch();
 
 const [title, setTitle]=useState("")  
 const [content, setContent] = useState("");
 const [userId, setUserId] = useState(""); 
 
-const handleChangeTitle=(e)=>setTitle(e.target.value)
-const handleChangeContent = (e) => setContent(e.target.value);
-const handleChangeAuthor = (e) => setUserId(e.target.value);
 
-const dispatch = useDispatch();
+const users=useSelector(selectAllUsers)
+
+const handleChangeTitle=e=>setTitle(e.target.value)
+const handleChangeContent = e => setContent(e.target.value);
+const handleChangeAuthor = e => setUserId(e.target.value);
+
+
 
 
 const onSavePostClicked=()=>{
@@ -58,7 +59,6 @@ const usersOptions=users.map(user=>{
         <select id="postAuthor" value={userId} onChange={handleChangeAuthor}>
           <option value=""></option>
           {usersOptions}
-   
         </select>
         <label htmlFor="postContent">Contenu:</label>
         <textarea
@@ -67,10 +67,7 @@ const usersOptions=users.map(user=>{
           value={content}
           onChange={handleChangeContent}
         />
-        <button type="button" 
-        onClick={onSavePostClicked}
-        disabled={!canSave}
-        >
+        <button type="button" onClick={onSavePostClicked} disabled={!canSave}>
           Enregistrer la publication
         </button>
       </form>

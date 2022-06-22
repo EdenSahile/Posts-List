@@ -12,7 +12,7 @@ function App() {
         <div className="row">
           <div className="col-sm-8 mx-auto">
             <AddPostForm />
-            <PostsList />
+            <PostsList/>
           </div>
         </div>
       </div>

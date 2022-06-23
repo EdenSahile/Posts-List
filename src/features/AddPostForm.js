@@ -11,7 +11,6 @@ const [title, setTitle]=useState("")
 const [content, setContent] = useState("");
 const [userId, setUserId] = useState(""); 
 
-
 const users=useSelector(selectAllUsers)
 
 const handleChangeTitle=e=>setTitle(e.target.value)
@@ -19,19 +18,15 @@ const handleChangeContent = e => setContent(e.target.value);
 const handleChangeAuthor = e => setUserId(e.target.value);
 
 
-
-
 const onSavePostClicked=()=>{
   if(title && content){
     dispatch(postAdded(title,content,userId))
-
     setTitle("")
     setContent("");
   }
 }
 
 const canSave= Boolean(title)&& Boolean(content) && Boolean(userId)
-
 
 const usersOptions=users.map(user=>{
   return (
@@ -67,7 +62,9 @@ const usersOptions=users.map(user=>{
           value={content}
           onChange={handleChangeContent}
         />
-        <button type="button" onClick={onSavePostClicked} disabled={!canSave}>
+        <button type="button" 
+        onClick={onSavePostClicked} 
+        disabled={!canSave}>
           Enregistrer la publication
         </button>
       </form>

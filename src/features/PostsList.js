@@ -4,18 +4,16 @@ import { selectAllPosts } from './postSlice';
 
 const PostsList = () => {
   
-  
   const posts=useSelector(selectAllPosts)
-  console.log(posts)
-  
 
   const renderedPosts=posts.map(post=>{
+
     return (
       <article key={post.id}>
         <h3>{post.title}</h3>
         <p>{post.content.substring(0, 100)}</p>
         <p className='postCredit'>
-        <PostAuthor userId={post.userId}/>
+          <PostAuthor userId={post.userId}/>
         </p>
       </article>
     );
